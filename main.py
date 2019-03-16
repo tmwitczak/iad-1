@@ -1,9 +1,20 @@
-# ################## TEMPORARY PART ###########################
+from InputData import InputData
+from KMeansAlgorithm import KMeansAlgorithm
 
-# ################## TEMPORARY PART ###########################
 
 def main():
-    print("random description")
+    # Inputing data
+    firstDataSet = InputData("iris.data")
+    irisData = firstDataSet.readFile()
+
+    secondDataSet = InputData("abalone.data")
+    abaloneData = secondDataSet.readFile()
+
+    thirdDataSet = InputData("seeds.data")
+    seedsData = thirdDataSet.readFile()
+
+    kMeans = KMeansAlgorithm()
+    kMeans.imageCompressionFromTutorial()
 
 
 # /////////////////////////////////////////////////////////// Execute program #

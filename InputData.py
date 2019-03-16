@@ -2,5 +2,9 @@ import pandas as pd
 
 
 class InputData:
+    def __init__(self, filename):
+        self.filename = filename
+
     def readFile(self):
-        irisData = pd.read_csv("iris.data", header=None)
+        data = pd.read_csv(self.filename, header=None)
+        return data
