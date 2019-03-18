@@ -15,6 +15,12 @@ def main():
     maxNumOfIter = input("Podaj maksymalna liczbe iteracji: ")
     kMeans = KMeansAlgorithm(kValue, tolerance, maxNumOfIter)
 
+    ipl = inputData.readFile("data\ipl.data")
+    ipl = ipl[['one', 'two']]
+    dataset = ipl.astype(float).values.tolist()
+
+    X = ipl.values  # returns a numpy array
+
 
 # /////////////////////////////////////////////////////////// Execute program #
 if __name__ == "__main__":

@@ -10,4 +10,6 @@ class InputData:
             data = pd.read_csv(filename, header=None, sep=",")
         elif filename == "data\_seeds.data":
             data = pd.read_csv(filename, header=None, sep=" ")
+        else:
+            data = pd.read_csv(filename, header=None)
         return data
