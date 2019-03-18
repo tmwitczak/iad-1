@@ -1,20 +1,19 @@
-from InputData import InputData
-from KMeansAlgorithm import KMeansAlgorithm
+from src.InputData import InputData
+from src.KMeansAlgorithm import KMeansAlgorithm
 
 
 def main():
     # Inputing data
-    firstDataSet = InputData("iris.data")
-    irisData = firstDataSet.readFile()
+    inputData = InputData()
+    irisData = inputData.readFile("data\_iris.data")
+    abaloneData = inputData.readFile("data\_abalone.data")
+    seedsData = inputData.readFile("data\_seeds.data")
 
-    secondDataSet = InputData("abalone.data")
-    abaloneData = secondDataSet.readFile()
-
-    thirdDataSet = InputData("seeds.data")
-    seedsData = thirdDataSet.readFile()
-
-    kMeans = KMeansAlgorithm()
-    kMeans.imageCompressionFromTutorial()
+    # inputing parameters from user
+    kValue = input("Podaj wartosc K: ")
+    tolerance = input("Podaj wartosc tolerancji: ")
+    maxNumOfIter = input("Podaj maksymalna liczbe iteracji: ")
+    kMeans = KMeansAlgorithm(kValue, tolerance, maxNumOfIter)
 
 
 # /////////////////////////////////////////////////////////// Execute program #
