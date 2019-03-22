@@ -47,7 +47,15 @@ Sprawdzenie działania oraz skuteczności algorytmów należało wykonać na trz
 Należy do grupy algorytmów iteracyjnych oraz analizujacych skupienia czyli w czasie kolejnych iteracji wyodrębnia grupy podobnych obiektow. Liczba klas na jakie są dzielone dane wejsciowe jest z góry założona. Jedną z najważniejszych elementów jest centroid. Algorytm polega na losowym umiejscowieniu centroidów oraz przenoszeniu ich do centrum skupień punktów. Dane podzbiory są wybierane na podstawie przyporządkowania najbliższego centroidu do punktu. Odległości są obliczane przy pomocy wzoru na odległość Euklidesową. Algorytm zostaje przerwany gdy pozycje centroidów zostana ustabilizowane.\\\\
 
 Algorytm Kohonena\\
-Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Neurony swobodnie poruszają sie w N wymiarowej przestrzenii, warto nadmienić, że N to ilość pomiarów dla jednego punktu w zbiorze danych - w przykładowych danych jest to po prostu liczba kolumn. Każdy punkt ze zbioru danych ma przydzielany zwycieski neuron wiec metoda uczenia w tym algorytmie jest konkurencyjna. 
+Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Neurony swobodnie poruszają sie w N wymiarowej przestrzenii, warto nadmienić, że N to ilość pomiarów dla jednego punktu w zbiorze danych - w przykładowych danych jest to po prostu liczba kolumn. Każdy punkt ze zbioru danych ma przydzielany zwycieski neuron wiec metoda uczenia w tym algorytmie jest konkurencyjna. Zwycieski neuron jest wybierany zgodnie z odległością wektora wagowego od danego wektora punktu. Odleglość jest liczona z użyciem wzoru na odległość Euklidesową - jest tak w przypadku dwóch punktów natomiast gdy jest wiecej wymiarów to wzór się rozrasta czyli jest obliczny pierwiastek z sumy kwadratów poszczególnych składowych położenia w przestrzeni. \\
+
+Wzór na odległość Euklidesową dla dwóch punktów: \\
+
+Wzór na modyfikacje wagi zwycieskiego neuronu: \\
+gdzie:\\
+t - liczba iteracji\\
+G - wzór na sąsiedztwo Gaussa, wzór poniżej:\\
+gdzie:\\
 
 }
 
