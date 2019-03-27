@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage[usenames,dvipsnames]{color}
 \usepackage[hidelinks]{hyperref}
+\usepackage{lmodern}
 
 \usepackage{amsmath, amssymb, mathtools}
 
@@ -29,30 +30,57 @@
   \studentinfo[216920@edu.p.lodz.pl]{Tomasz Witczak}{216920}%
 }
 
-\title{Zadanie 1.: Nazwa zadania}
+\title{Zadanie 1.: Algorytmy klasteryzacji}
 
 \begin{document}
 \maketitle
 \thispagestyle{fancyplain}
 
 \section{Cel}
-{
-
+{Celem zadaniu było stworzenie programu implementującego dwa algorytmu klasteryzacji:\\
+1. Algorytm k - średnich\\
+2. Algorytm samoorganizującej sie sieci nieuronowej Kohonena\\\\
+Sprawdzenie działania oraz skuteczności algorytmów należało wykonać na trzech zbiorach danych.
 }
 
 \section{Wprowadzenie}
-{
+{Algorytm k - średnich\\
+Należy do grupy algorytmów iteracyjnych oraz analizujacych skupienia czyli w czasie kolejnych iteracji wyodrębnia grupy podobnych obiektow. Liczba klas na jakie są dzielone dane wejsciowe jest z góry założona. Jedną z najważniejszych elementów jest centroid. Algorytm polega na losowym umiejscowieniu centroidów oraz przenoszeniu ich do centrum skupień punktów. Dane podzbiory są wybierane na podstawie przyporządkowania najbliższego centroidu do punktu. Odległości są obliczane przy pomocy wzoru na odległość Euklidesową. Algorytm zostaje przerwany gdy pozycje centroidów zostana ustabilizowane.\\\\
+
+Algorytm Kohonena\\
+Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Neurony swobodnie poruszają sie w N wymiarowej przestrzenii, warto nadmienić, że N to ilość pomiarów dla jednego punktu w zbiorze danych - w przykładowych danych jest to po prostu liczba kolumn. Każdy punkt ze zbioru danych ma przydzielany zwycieski neuron wiec metoda uczenia w tym algorytmie jest konkurencyjna. Zwycieski neuron jest wybierany zgodnie z odległością wektora wagowego od danego wektora punktu. Odleglość jest liczona z użyciem wzoru na odległość Euklidesową - jest tak w przypadku dwóch punktów natomiast gdy jest wiecej wymiarów to wzór się rozrasta czyli jest obliczny pierwiastek z sumy kwadratów poszczególnych składowych położenia w przestrzeni. \\
+
+Wzór na odległość Euklidesową dla dwóch punktów: 
+\begin{align*}
+d=\displaystyle\sqrt{\sum_{i=0}^{i=n} {(X_i - W_i)^2}}
+\end{align*}
+Wzór na modyfikacje wagi zwycieskiego neuronu: 
+\begin{align*}
+W_i(t + 1) = W_i(t) + \epsilon * G(d)* (X - W_i(t))
+\end{align*}
+gdzie:\\
+t - liczba iteracji\\
+G - wzór na sąsiedztwo Gaussa, wzór poniżej:
+\begin{align*}
+G(t) = \exp (-\frac{d^2} {2* \delta^2(t)})s
+\end{align*}
+gdzie:
+\begin{align*}
+\delta(t) = \delta_0 * \exp (-\frac {t} { \lambda })
+\end{align*}
 
 }
 
 \section{Opis implementacji}
-{
-
+{Jezyk użyty do stworzenie programu to Python 3.7.2. Łączy on takie zalety jak świetne biblioteki takie jak numpy, które wykonują oblicznia niskopoziomowo czyli obliczenia są wykonywane w bardzo szybki sposób a jednocześnie składnia jest bardzo czytelna oraz przyjazna dla programisty. W czasie tworzenia programu korzystalismy z systemu kontroli wersji git. Caly projekt został podzielony na katalogi:\\
+- data\\
+- report\\
+- src\\
+gdzie w data znajdują się zbiory danych do testów, w report znajduję sie sprawozdanie w formacie .tex oraz oraz wygenerowane sprawozdanie w formacie .pdf. Katalog src zawiera kod źródłowy klas napisanych przez nas. Dla ułatwienia obslugi plik main.py, który zawiera funkcje main() nie został dodany do żadnego z powyżej wymienionych katalogów.
 }
 
 \section{Materiały i metody}
-{
-
+{Aby zapewnić poprawne działanie programu wszystkie wyzej wymienione elementy muszą być obecne. Aby zapewnić wieksze bezpieczeństwo oraz pewność, że program zawsze zadziała dane testowe są dołączone do programu, również w systemie kontroli wersji katalog data był cały czas obecny.
 }
 
 \section{Wyniki}
