@@ -76,82 +76,33 @@ def hide_matplotlib_toolbar():
     matplotlib.rcParams["toolbar"] = "None"
 
 
-def draw_k_means(data, n, m, k, centroids, clusters):
-    # Set main parameters
-    # hide_matplotlib_toolbar()
-
-    # Create main plot
-    # fig, ax = pyplot.subplots()
-    # ax.set(title="Zadanie 1 - Wykresy (Metoda K-Średnich)")
-
-    # fig.canvas.mpl_connect("key_press_event", onkeydown)
-
-    # pyplot.suptitle("Zadanie 1 - Wykresy (K-Means)")
-
-    # Prepare the first graph (sepal length x sepal width)
-    # pyplot.subplot(1, 2, 1)
-
+def draw_k_means(data, n, m, k, centroids, clusters, iteration_number):
+    # Get and clear current axes
     ax = pyplot.gca()
     pyplot.cla()
+
+    # Set axis parameters
+    ax.set(title = "Zadanie 1 - Wykresy (Metoda K-Średnich)\nIteracja: "
+                   + str(iteration_number))
+
 
     clustered_data = [[] for i in range(k)]
 
     for i in range(len(data)):
         clustered_data[clusters[i]].append([data[i][n], data[i][m]])
 
+    colors = "rgbcmykw"
+
+    for i in range(len(clustered_data)):
+        ax.plot(get_column(clustered_data[i], 0),
+                get_column(clustered_data[i], 1),
+                colors[i] + "o")
+
     ax.plot(get_column(centroids, n),
             get_column(centroids, m),
             "yo", markersize = 12)
-    ax.plot(get_column(clustered_data[0], 0),
-            get_column(clustered_data[0], 1),
-            "ro")
-    ax.plot(get_column(clustered_data[1], 0),
-            get_column(clustered_data[1], 1),
-            "go")
-    ax.plot(get_column(clustered_data[2], 0),
-            get_column(clustered_data[2], 1),
-            "bo")
-    # pyplot.plot(get_column(centroids, 0),
-    #           get_column(centroids, 1),
-    #          "r+")
 
-    """pyplot.plot(get_column(data, 0),
-                get_column(data, 1),
-                "r+",
-                label = "Iris setosa")
-    pyplot.plot(iris_versicolor.iloc[:, 0],
-                iris_versicolor.iloc[:, 1],
-                "g+",
-                label = "Iris versicolor")
-    pyplot.plot(iris_virginica.iloc[:, 0],
-                iris_virginica.iloc[:, 1],
-                "b+",
-                label = "Iris virginica")
-    pyplot.title("Zależność szerokości od długości działki kielicha")
-    pyplot.xlabel("Długość działki kielicha [cm]")
-    pyplot.ylabel("Szerokość działki kielicha [cm]")
-    pyplot.legend()
-
-    # Prepare the second graph (petal length x petal width)
-    pyplot.subplot(1, 2, 2)
-    pyplot.plot(iris_setosa.iloc[:, 2],
-                iris_setosa.iloc[:, 3],
-                "r+",
-                label = "Iris setosa")
-    pyplot.plot(iris_versicolor.iloc[:, 2],
-                iris_versicolor.iloc[:, 3],
-                "g+",
-                label = "Iris versicolor")
-    pyplot.plot(iris_virginica.iloc[:, 2],
-                iris_virginica.iloc[:, 3],
-                "b+",
-                label = "Iris virginica")
-    pyplot.title("Zależność szerokości od długości płatka")
-    pyplot.xlabel("Długość płatka [cm]")
-    pyplot.ylabel("Szerokość płatka [cm]")
-    pyplot.legend()
-"""
-    # Plot final graph
+    # Plot the graph
     pyplot.show()
 
 
@@ -176,22 +127,23 @@ def move_centroids(data, k, centroids, clusters):
     return new_centers
 
 
-def k_means(data, k):
-    """
-    :param data:
-    :param k:
-    :return:
-    """
+# /////////////////////////////////////////////////////////////////////////// #
+def k_means(data, k, i, j):
+    iteration_number = 1
+
+    # For given k, pick k initial centroids and assign clusters
     centroids = define_centroids(data, k)
     clusters = assign_clusters(data, centroids)
 
+    # Perform next iteration of the algorithm
     def next_iteration():
-        nonlocal centroids
-        nonlocal clusters
+        nonlocal centroids, clusters, iteration_number
         centroids = move_centroids(data, k, centroids, clusters)
         clusters = assign_clusters(data, centroids)
-        draw_k_means(data, 2, 3, k, centroids, clusters)
+        iteration_number = iteration_number + 1
+        draw_k_means(data, i, j, k, centroids, clusters, iteration_number)
 
+    # Define keyboard support for the plot
     def on_key_down(event):
         # Draw next plot
         if event.key == 'x':
@@ -199,27 +151,22 @@ def k_means(data, k):
 
         # Reset 
         if event.key == 'r':
-            nonlocal centroids
-            nonlocal clusters
+            nonlocal centroids, clusters, iteration_number
             centroids = define_centroids(data, k)
             clusters = assign_clusters(data, centroids)
-            draw_k_means(data, 2, 3, k, centroids, clusters)
+            iteration_number = 1
+            draw_k_means(data, i, j, k, centroids, clusters, iteration_number)
 
         # Close current figure
         if event.key == 'c':
             pyplot.close(pyplot.gcf())
 
-    # Set main parameters
+    # Create and draw plot
     hide_matplotlib_toolbar()
-
-    # Create main plot
     fig, ax = pyplot.subplots()
-    # ax.set(title = "Zadanie 1 - Wykresy (Metoda K-Średnich)")
-
     fig.canvas.mpl_connect("key_press_event", on_key_down)
     toggle_matplotlib_fullscreen()
-
-    draw_k_means(data, 2, 3, k, centroids, clusters)
+    draw_k_means(data, i, j, k, centroids, clusters, iteration_number)
 
 
 # ////////////////////////////////////////////////////////////////////// Main #
@@ -251,7 +198,24 @@ def main():
                     get_column(iris_2, j)))
         iris_3.append(iris)
 
-    k_means(iris_3, k)
+    k_means(iris_3, k, 2, 3)
+
+    wine_dataa = load_csv_file_into_array("data\_wine.data")
+
+    wine_data = []
+    for i in range(len(wine_dataa)):
+        wine_data.append(wine_dataa[i][1:len(wine_dataa[0])])
+
+    wine_2 = []
+    for i in range(len(wine_data)):
+        wine = []
+        for j in range(len(wine_data[0])):
+            wine.append((float(wine_data[i][j]) - mean(get_column(wine_data,
+                                                               j))) / std(
+                    get_column(wine_data, j)))
+        wine_2.append(wine)
+
+    k_means(wine_2, k, 6, 7)
 
     # # inputing parameters from user
     # kValue = input("Podaj wartosc K: ")
