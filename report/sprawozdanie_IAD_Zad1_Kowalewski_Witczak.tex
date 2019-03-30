@@ -6,7 +6,7 @@
 \usepackage[usenames,dvipsnames]{color}
 \usepackage[hidelinks]{hyperref}
 \usepackage{lmodern}
-
+\usepackage{url}
 \usepackage{amsmath, amssymb, mathtools}
 
 \usepackage{fancyhdr, lastpage}
@@ -39,23 +39,23 @@
 \section{Cel}
 {Celem zadania było stworzenie programu implementującego dwa algorytmu klasteryzacji:\\
 1. Algorytm k - średnich\\
-2. Algorytm samoorganizującej sie sieci nieuronowej Kohonena\\
-3. Algorytm samoorganizującej sie sieci nieuronowej gazu neuronowego\\\\
+2. Algorytm samoorganizującej się sieci neuronowej Kohonena\\
+3. Algorytm samoorganizującej się sieci neuronowej gazu neuronowego\\\\
 Sprawdzenie działania oraz skuteczności algorytmów należało wykonać na trzech zbiorach danych.
 }
 
 \section{Wprowadzenie}
-{Algorytm \\
-Należy do grupy algorytmów iteracyjnych oraz analizujacych skupienia czyli w czasie kolejnych iteracji wyodrębnia grupy podobnych obiektow. Liczba klas na jakie są dzielone dane wejsciowe jest z góry założona. Jedną z najważniejszych elementów jest centroid. Algorytm polega na losowym umiejscowieniu centroidów oraz przenoszeniu ich do centrum skupień punktów. Dane podzbiory są wybierane na podstawie przyporządkowania najbliższego centroidu do punktu. Odległości są obliczane przy pomocy wzoru na odległość Euklidesową. Algorytm zostaje przerwany gdy pozycje centroidów zostana ustabilizowane.\\\\
+{Algorytm k - średnich \\
+Należy do grupy algorytmów iteracyjnych oraz analizujących skupienia czyli w czasie kolejnych iteracji wyodrębnia grupy podobnych obiektów. Liczba klas na jakie są dzielone dane wejściowe jest z góry założona. Jedną z najważniejszych elementów jest centroid. Algorytm polega na losowym umiejscowieniu centroidów oraz przenoszeniu ich do centrum skupień punktów. Dane podzbiory są wybierane na podstawie przyporządkowania najbliższego centroidu do punktu. Odległości są obliczane przy pomocy wzoru na odległość Euklidesową. Algorytm zostaje przerwany gdy pozycje centroidów zostaną ustabilizowane.\\\\
 
 Algorytm Kohonena\\
-Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Neurony swobodnie poruszają sie w N wymiarowej przestrzenii, warto nadmienić, że N to ilość pomiarów dla jednego punktu w zbiorze danych - w przykładowych danych jest to po prostu liczba kolumn. Każdy punkt ze zbioru danych ma przydzielany zwycięski neuron wiec metoda uczenia w tym algorytmie jest konkurencyjna. Zwycieski neuron jest wybierany zgodnie z odległością wektora wagowego od danego wektora punktu. Odleglość jest liczona z użyciem wzoru na odległość Euklidesową - jest tak w przypadku dwóch punktów natomiast gdy jest wiecej wymiarów to wzór się rozrasta czyli jest obliczny pierwiastek z sumy kwadratów poszczególnych składowych położenia w przestrzeni. \\
+Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Neurony swobodnie poruszają się w N wymiarowej przestrzeni, warto nadmienić, że N to ilość pomiarów dla jednego punktu w zbiorze danych - w przykładowych danych jest to po prostu liczba kolumn. Każdy punkt ze zbioru danych ma przydzielany zwycięski neuron wiec metoda uczenia w tym algorytmie jest konkurencyjna. Zwycięski neuron jest wybierany zgodnie z odległością wektora wagowego od danego wektora punktu. Odległość jest liczona z użyciem wzoru na odległość Euklidesową - jest tak w przypadku dwóch punktów natomiast gdy jest wiecej wymiarów to wzór się rozrasta czyli jest obliczany pierwiastek z sumy kwadratów poszczególnych składowych położenia w przestrzeni. \\
 
 Wzór na odległość Euklidesową dla dwóch punktów: 
 \begin{align*}
 d=\displaystyle\sqrt{\sum_{i=0}^{i=n} {(X_i - W_i)^2}}
 \end{align*}
-Wzór na modyfikacje wagi zwycieskiego neuronu: 
+Wzór na modyfikacje wagi zwycięskiego neuronu: 
 \begin{align*}
 W_i(t + 1) = W_i(t) + \epsilon * G(d)* (X - W_i(t))
 \end{align*}
@@ -71,7 +71,7 @@ gdzie:
 \end{align*}
 \\
 Algorytm gazu neuronowego\\
-Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Precyzując w tej metodzie nie ma sieci natomiast jest kolekcja swobodnych neuronów, które poruszają się swobodnie w określonej przestrzeni. Podobnie jak w przypadku algorytmu Kohonena metoda uczenia jest konkurencyjna czyli ograniczenie swobody polega na współzawodnictwie. TUTAJ DOKOCZYC!!!!!!! \\
+Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Precyzując w tej metodzie nie ma sieci natomiast jest kolekcja swobodnych neuronów, które poruszają się swobodnie w określonej przestrzeni. Podobnie jak w przypadku algorytmu Kohonena metoda uczenia jest konkurencyjna czyli ograniczenie swobody polega na współzawodnictwie. Gaz neuronowy definiuje sąsiedztwo na podstawie odległości neuronów w przestrzeni wejściowej. \\
 
 Wzór na modyfikacje wartości wag neuronu:
 \begin{align*}
@@ -81,20 +81,37 @@ gdzie G to funkcja sąsiedztwa:
 \begin{align*}
 G_{(i,x)}(k)=\exp(-m(i)/\lambda(k))
 \end{align*}
-gdzie m(i) oznacza numer neuronu i w rankingu, numer 0 oznacza zwycięzce.\\
+gdzie m(i) oznacza numer neuronu i w rankingu, numer 0 oznacza zwycięzcę.\\
+Parametr $\lambda$ można rozumieć jako promień sąsiedztwa.
 
 }
 
 \section{Opis implementacji}
-{Jezyk użyty do stworzenie programu to Python 3.7.2. Łączy on takie zalety jak świetne biblioteki takie jak numpy, które wykonują oblicznia niskopoziomowo czyli obliczenia są wykonywane w bardzo szybki sposób a jednocześnie składnia jest bardzo czytelna oraz przyjazna dla programisty. W czasie tworzenia programu korzystalismy z systemu kontroli wersji git. Caly projekt został podzielony na katalogi:\\
+{Język użyty do stworzenie programu to Python 3.7.2. Łączy on takie zalety jak świetne biblioteki takie jak numpy, które wykonują obliczenia niskopoziomowo czyli obliczenia są wykonywane w bardzo szybki sposób a jednocześnie składnia jest bardzo czytelna oraz przyjazna dla programisty. W czasie tworzenia programu korzystaliśmy z systemu kontroli wersji git. Cały projekt został podzielony na katalogi:\\
 - data\\
 - report\\
 - src\\
-gdzie w data znajdują się zbiory danych do testów, w report znajduję sie sprawozdanie w formacie .tex oraz oraz wygenerowane sprawozdanie w formacie .pdf. Katalog src zawiera kod źródłowy klas napisanych przez nas. Dla ułatwienia obslugi plik main.py, który zawiera funkcje main() nie został dodany do żadnego z powyżej wymienionych katalogów.
+gdzie w data znajdują się zbiory danych do testów, w report znajduję sie sprawozdanie w formacie .tex oraz wygenerowane sprawozdanie w formacie .pdf. Katalog src zawiera kod źródłowy klas napisanych przez nas. Dla ułatwienia obsługi plik main.py, który zawiera funkcje main() nie został dodany do żadnego z powyżej wymienionych katalogów.
+	\subsection{Plik  .py}
+	{
+
+	}
+	\subsection{Plik  .py}
+	{
+
+	}
+	\subsection{Plik  .py}
+	{
+
+	}
+	\subsection{Plik  .py}
+	{
+
+	}
 }
 
 \section{Materiały i metody}
-{Aby zapewnić poprawne działanie programu wszystkie wyżej wymienione elementy muszą być obecne. Aby zapewnić wieksze bezpieczeństwo oraz pewność, że program zawsze zadziała dane testowe są dołączone do programu, również w systemie kontroli wersji katalog data był cały czas obecny. 
+{Aby zapewnić poprawne działanie programu wszystkie wyżej wymienione elementy muszą być obecne. Aby zapewnić większe bezpieczeństwo oraz pewność, że program zawsze zadziała dane testowe są dołączone do programu, również w systemie kontroli wersji katalog data był cały czas obecny. 
 }
 
 \section{Wyniki}
@@ -142,9 +159,9 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 }
 
 \begin{thebibliography}{0}
-  \bibitem{l2short} http://wikizmsi.zut.edu.pl/uploads/6/6f/InstrukcjaGaz.pdf
-  \bibitem{l2short}  https://en.wikipedia.org/wiki/K-means\_clustering
-  \bibitem{l2short}
+  \bibitem{l2short}\url{ http://wikizmsi.zut.edu.pl/uploads/6/6f/InstrukcjaGaz.pdf}
+  \bibitem{l2short} \url{https://en.wikipedia.org/wiki/K-means\_clustering}
+  \bibitem{l2short} \url{http://www.michalbereta.pl/dydaktyka/WdoSI/lab_neuronowe_II}
   \bibitem{l2short} 
 \end{thebibliography}
 
