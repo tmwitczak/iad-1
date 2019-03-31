@@ -153,7 +153,7 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 }
 
 \section{Materiały i metody}
-{Aby zapewnić poprawne działanie programu wszystkie wyżej wymienione elementy muszą być obecne. Aby zapewnić większe bezpieczeństwo oraz pewność, że program zawsze zadziała dane testowe są dołączone do programu, również w systemie kontroli wersji katalog data był cały czas obecny. 
+{Aby zapewnić poprawne działanie programu wszystkie wyżej wymienione elementy muszą być obecne. Aby zapewnić większe bezpieczeństwo oraz pewność, że program zawsze zadziała dane testowe są dołączone do programu, również w systemie kontroli wersji katalog data był cały czas obecny. Wybór zbioru danych oraz oraz trybu (DEFAULT, NORMALIZED, STANDARDIZED) wykonuje się przez zmiane w pliku main.py w funkcja main. Nastepnie należy skompilować kod - zalecane przez nas środowisko to PyCharm Community Edition w pełni darmowe do zastosowań niekomercyjnych. Po uruchomieniu wyświetli się wykres w trybie pełnoekranowym, który pokazuje jak działanie programu przez animacje. Po pewnej chwili - czas jest zależny od wybranych danych, trybu danych oraz losowego umiejscowienia centroidów / neuronów zależnie od algorytmu. Aby zapisać plik png należy nacisnąć klawisz |s| na klawiaturze (zwykla litera). Plik zostanie zapisany w katalogu src w projekcie. Ważną informajcą jest to, że plik obrazu jest nadpisywany więc gdy chcemy uzyskać wiecej niż jeden plik .png należy we własnym zakresie skopiować obraz co każde uruchomienie programu. W przypadku chęci zmiany parametrów takich jak liczba klastrów, liczba iteracji należy udać się do main.py i dokonać zmiany przypiswanych wartości zmiennych.
 }
 
 \section{Wyniki}
@@ -164,37 +164,44 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 		{
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansIrisDefault.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansIrisDefault.png}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansIrisNormalized.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansIrisNormalized.png}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansIrisStandadise.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansIrisStandadise.png}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
 		}
 
 		\subsubsection{Algorytm Kohonena}
-		{ \iffalse
+		{ 
+		\iffalse
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
@@ -206,17 +213,20 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 			\iffalse
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
@@ -229,17 +239,20 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 		{
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansWineDefault.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansWineDefault.png}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansWineNormalised.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansWineNormalised.png}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansWineStandardise.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansWineStandardise.png}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
@@ -250,17 +263,20 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 			\iffalse
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
@@ -271,18 +287,21 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 		{
 			\iffalse
 			Poniżej wykresy dla trzech trybów
-				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+				\begin{figure}[!htbp]	
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
@@ -295,17 +314,20 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 		{
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansAbaloneDefault.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansAbaloneDefault.png}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansAbaloneNormalised.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansAbaloneNormalised.png}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/plot_k_meansAbaloneStandardise.png}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansAbaloneStandardise.png}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
@@ -316,17 +338,20 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 			\iffalse
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
@@ -338,17 +363,20 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 			\iffalse
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
-					\includegraphics[width=\textwidth]{wykresy/}
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
