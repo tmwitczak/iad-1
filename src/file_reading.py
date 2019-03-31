@@ -1,19 +1,33 @@
 # /////////////////////////////////////////////////////////////////// Imports #
 import csv
-from typing import List, NamedTuple, Tuple
 import statistics
+from typing import Any, List, NamedTuple, Tuple
 
 import numpy
 
 # ////////////////////////////////////////////////////////////////// Typedefs #
-Vector = numpy.array
+Vector = numpy.ndarray
 
 
+def vector_from_list(
+        x: List[float]) \
+        -> Vector:
+    return numpy.array(x)
+
+
+def empty_vector(
+        length: int) \
+        -> Vector:
+    return numpy.empty(shape = length)
+
+
+# /////////////////////////////////////////////////////////////////// Classes #
 class ClusteringData(NamedTuple):
-    data: Tuple[Vector]
-    data_normalised: Tuple[Vector]
-    data_standardised: Tuple[Vector]
-    classes: Tuple[str]
+    data: Tuple[Vector, ...]
+    data_normalised: Tuple[Vector, ...]
+    data_standardised: Tuple[Vector, ...]
+    classes: Tuple[str, ...]
+    parameter_names: Tuple[str, ...]
 
 
 class DataSets(NamedTuple):
@@ -37,18 +51,45 @@ def load_data_sets() \
     # Load data sets from csv files
     iris_csv_filename: str = 'data/iris.data'
     iris_class_column_number: int = 4
+    iris_parameter_names: Tuple[str, ...] = ('Sepal length',
+                                             'Sepal width',
+                                             'Petal length',
+                                             'Petal width')
     iris: ClusteringData = load_clustering_data_from_csv_file(
-            iris_csv_filename, iris_class_column_number)
+            iris_csv_filename, iris_class_column_number,
+            iris_parameter_names)
 
     wine_csv_filename: str = 'data/wine.data'
     wine_class_column_number: int = 0
+    wine_parameter_names: Tuple[str, ...] = ('Malic acid',
+                                             'Ash',
+                                             'Alcalinity of ash',
+                                             'Magnesium',
+                                             'Total phenols',
+                                             'Flavanoids',
+                                             'Nonflavanoid phenols',
+                                             'Proanthocyanins',
+                                             'Color intensity',
+                                             'Hue',
+                                             'OD280/OD315 of diluted wines',
+                                             'Proline')
     wine: ClusteringData = load_clustering_data_from_csv_file(
-            wine_csv_filename, wine_class_column_number)
+            wine_csv_filename, wine_class_column_number,
+            wine_parameter_names)
 
     abalone_csv_filename: str = 'data/abalone.data'
     abalone_class_column_number: int = 0
+    abalone_parameter_names: Tuple[str, ...] = ('Length',
+                                                'Diameter',
+                                                'Height',
+                                                'Whole weight',
+                                                'Shucked weight',
+                                                'Viscera weight',
+                                                'Shell weight',
+                                                'Rings')
     abalone: ClusteringData = load_clustering_data_from_csv_file(
-            abalone_csv_filename, abalone_class_column_number)
+            abalone_csv_filename, abalone_class_column_number,
+            abalone_parameter_names)
 
     # Return data sets
     return DataSets(iris, wine, abalone)
@@ -57,7 +98,8 @@ def load_data_sets() \
 # /////////////////////////////////////////////////////////////////////////// #
 def load_clustering_data_from_csv_file(
         csv_filename: str,
-        classes_column_number: int) \
+        classes_column_number: int,
+        parameter_names: Tuple[str, ...]) \
         -> ClusteringData:
     """ Load data from csv file and separate numeric values from classes.
 
@@ -67,6 +109,8 @@ def load_clustering_data_from_csv_file(
         Path to csv file.
     classes_column_number : int
         Number of column containing class identifier.
+    parameter_names : Tuple[str, ...]
+        Names of subsequent parameters in data vector
 
     Returns
     -------
@@ -75,24 +119,29 @@ def load_clustering_data_from_csv_file(
 
     """
     # ----------------------------------------------------------------------- #
+    # Clustering data attributes
     data: List[Vector] = []
     data_normalised: List[Vector] = []
     data_standardised: List[Vector] = []
     classes: List[str] = []
 
+    # Load data and classes
     with open(csv_filename) as csv_file:
         csv_data = csv.reader(csv_file)
         for row in csv_data:
             data.append(
-                    Vector([float(x) for x in row[0:classes_column_number]]
-                           + [float(x) for x in row[(classes_column_number + 1)
-                                                    :len(row)]]))
+                    vector_from_list(
+                            [float(x) for x in row[0:classes_column_number]]
+                            + [float(x) for x in
+                               row[(classes_column_number + 1)
+                                   :len(row)]]))
             classes.append(row[classes_column_number])
 
-    min_vector: Vector = numpy.empty(shape = len(data[0]))
-    max_vector: Vector = numpy.empty(shape = len(data[0]))
-    mean_vector: Vector = numpy.empty(shape = len(data[0]))
-    stdev_vector: Vector = numpy.empty(shape = len(data[0]))
+    # Normalise and standardise data
+    min_vector: Vector = empty_vector(len(data[0]))
+    max_vector: Vector = empty_vector(len(data[0]))
+    mean_vector: Vector = empty_vector(len(data[0]))
+    stdev_vector: Vector = empty_vector(len(data[0]))
 
     for i in range(len(data[0])):
         min_vector[i] = min(get_column(data, i))
@@ -105,20 +154,22 @@ def load_clustering_data_from_csv_file(
                 (vector - min_vector) / (max_vector - min_vector))
         data_standardised.append((vector - mean_vector) / stdev_vector)
 
+    # Return whole data set
     return ClusteringData(tuple(data), tuple(data_normalised),
-                          tuple(data_standardised), tuple(classes))
+                          tuple(data_standardised), tuple(classes),
+                          tuple(parameter_names))
 
 
 # /////////////////////////////////////////////////////////////////////////// #
 def get_column(
-        two_dimensional_list: List[List],
-        n: int)\
+        two_dimensional_list: List[List[Any]],
+        n: int) \
         -> List:
     """ Return n-th column of two dimensional list.
 
     Parameters
     ----------
-    two_dimensional_list : List[List]
+    two_dimensional_list : List[List[Any]]
         Two dimensional list of which the column should be returned.
     n : int
         Number of column to return.
