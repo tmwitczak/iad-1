@@ -87,6 +87,7 @@ def load_data_sets() \
                                                 'Viscera weight',
                                                 'Shell weight',
                                                 'Rings')
+    # 'Rings')
     abalone: ClusteringData = load_clustering_data_from_csv_file(
             abalone_csv_filename, abalone_class_column_number,
             abalone_parameter_names)
@@ -132,9 +133,8 @@ def load_clustering_data_from_csv_file(
             data.append(
                     vector_from_list(
                             [float(x) for x in row[0:classes_column_number]]
-                            + [float(x) for x in
-                               row[(classes_column_number + 1)
-                                   :len(row)]]))
+                            + [float(x) for x in row[(classes_column_number
+                                                      + 1):len(row)]]))
             classes.append(row[classes_column_number])
 
     # Normalise and standardise data

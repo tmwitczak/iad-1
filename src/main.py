@@ -4,6 +4,9 @@ from src.k_means_algorithm import k_means, KMeansDataMode
 
 
 # ////////////////////////////////////////////////////////////////////// Main #
+from src.kohonen_network_algorithm import KohonenDataMode, kohonen
+
+
 def main() -> None:
     """ Analyse data sets with different clustering algorithms
     """
@@ -12,13 +15,13 @@ def main() -> None:
 
     data_set: ClusteringData = data_sets.wine
     number_of_clusters: int = 3
-    iterations: int = 100
-    x_axis_vector_index: int = 5
-    y_axis_vector_index: int = 7
+    iterations: int = 2
+    x_axis_vector_index: int = 0
+    y_axis_vector_index: int = 1
     animation_rate: float = 0.0001
-    mode: KMeansDataMode = KMeansDataMode.STANDARDISED
+    mode: KohonenDataMode = KohonenDataMode.STANDARDISED
 
-    k_means(data_set,
+    kohonen(data_set,
             number_of_clusters,
             iterations = iterations,
             i = x_axis_vector_index,

@@ -1,10 +1,9 @@
 # /////////////////////////////////////////////////////////////////// Imports #
 import random
-import time
+import statistics
 from enum import Enum
 from typing import List, Tuple
 
-import matplotlib
 import numpy
 from matplotlib import pyplot
 
@@ -18,7 +17,7 @@ class KMeansDataMode(Enum):
     STANDARDISED = 2
 
 
-# /////////////////////////////////////////////////////////////////////////// #
+# ///////////////////////////////////////////////////////// K-means algorithm #
 def k_means(
         data_set: ClusteringData,
         k: int,
@@ -33,6 +32,7 @@ def k_means(
 
     Parameters
     ----------
+    animation_rate  #TODO
     data_set : ClusteringData
         Data set for finding clusters.
     k : int
@@ -123,21 +123,12 @@ def k_means_iteration(
                          centroids, clusters,
                          current_iteration)
             pyplot.pause(animation_rate)
-        centroids = calculate_centers_of_clusters(data, k, centroids,
-                                                  clusters)
+        centroids = calculate_centers_of_clusters(data, k, clusters)
         for centroid in previous_centroids:
             if numpy.array_equal(centroid, centroids):
                 should_iterate = False
                 break
         previous_centroids.append(centroids)
-
-        # if animate:
-        #     draw_k_means(data, data_set.classes, data_set.parameter_names,
-        #                  i,
-        #                  j, k,
-        #                  centroids, clusters,
-        #                  current_iteration)
-        #     pyplot.pause(animation_rate)
 
         current_iteration += 1
 
@@ -152,12 +143,6 @@ def k_means_iteration(
         for x in range(len(clusters)):
             if clusters[x] == n:
                 vectors_in_nth_cluster.append(data[x])
-
-        # center = sum(vectors_in_nth_cluster) / len(vectors_in_nth_cluster)
-
-        # lengths: Tuple[float] \
-        #     = tuple([euclidean_distance(vector, center)
-        #              for vector in vectors_in_nth_cluster])
 
         cluster_errors.append(numpy.std(vector_from_list(
                 vectors_in_nth_cluster)))
@@ -205,12 +190,6 @@ def get_column(
 
 
 # /////////////////////////////////////////////////////////////////////////// #
-
-
-def create_two_dimensional_array(n, m):
-    return [[None for j in range(m)] for i in range(n)]
-
-
 def pick_random_centroids(
         data: Tuple[Vector],
         k: int) \
@@ -224,10 +203,7 @@ def pick_random_centroids(
                 for i in range(k)])
 
 
-# def vector_difference(a, b):
-# result = []
-
-
+# /////////////////////////////////////////////////////////////////////////// #
 def euclidean_distance(
         p: Vector,
         q: Vector) \
@@ -235,10 +211,9 @@ def euclidean_distance(
     """ Compute Euclidean distance between p and q vectors
     """
     return numpy.linalg.norm(p - q)
-    # return math.sqrt(sum([math.pow(float(p[i]) - float(q[i]), 2) for i in
-    #                       range(len(p))]))
 
 
+# /////////////////////////////////////////////////////////////////////////// #
 def assign_data_to_nearest_clusters(
         data: ClusteringData,
         centroids: Tuple[Vector]) \
@@ -255,63 +230,39 @@ def assign_data_to_nearest_clusters(
     return tuple(clusters)
 
 
-def toggle_matplotlib_fullscreen():
-    pyplot.get_current_fig_manager().full_screen_toggle()
-
-
-def hide_matplotlib_toolbar():
-    pyplot.rcParams['toolbar'] = 'None'
-
-
-def set_matplotlib_fontsize(
-        size: int) \
-        -> None:
-    pyplot.rcParams.update({'font.size': size})
-
-
+# /////////////////////////////////////////////////////////////////////////// #
 def draw_k_means(data, classes, names, n, m, k, centroids, clusters,
                  iteration_number):
     # Get and clear current axes
     ax = pyplot.gca()
     ax.clear()
 
-    # Set axis parameters
-    ax.set(title = 'Zadanie 1 - Wykresy (Metoda K-Średnich)\nIteracja: '
-                   + str(iteration_number),
-           xlabel = names[n],
-           ylabel = names[m])
-
     clustered_data = [[] for i in range(k)]
 
     for i in range(len(data)):
         clustered_data[clusters[i]].append([data[i][n], data[i][m]])
 
-    #ax.set_prop_cycle('color',
-    #                  pyplot.get_cmap('rainbow')(numpy.linspace(0, 1, k)))
     color_map = pyplot.get_cmap('rainbow')(numpy.linspace(0, 1, k))
+    markers: List[str] = ['o', 's', 'p', 'P', '*', 'D']
 
-    # print()
-    # print(pyplot.get_cmap('Spectral')(numpy.linspace(0, 1, k)))
-    # time.sleep(1000)
+    x = [[[] for j in range(len(set(classes)))] for i in range(k)]
+    y = [[[] for j in range(len(set(classes)))] for i in range(k)]
+    stats = [[0 for j in range(len(set(classes)))] for i in range(k)]
+    for i, vector in enumerate(data):
+        for j, cl in enumerate(set(classes)):
+            if classes[i] == cl:
+                x[clusters[i]][j].append(vector[n])
+                y[clusters[i]][j].append(vector[m])
+                stats[clusters[i]][j] += 1
 
-    shapes = {'Iris-setosa': 's', 'Iris-versicolor': 'D', 'Iris-virginica':
-        'o'}
+    for i in range(k):
+        for j, cl in enumerate(set(classes)):
+            ax.plot(x[i][j], y[i][j], markers[j % 6], color = color_map[i],
+                    markersize = 6)
 
-    # for i in range(len(clustered_data)):
-    #     ax.plot(get_column(clustered_data[i], 0),
-    #             get_column(clustered_data[i], 1),
-    #             colors[i] + 'o')
-
-    for i, ii in enumerate(clustered_data):
-        x = []
-        y = []
-        # clu = []
-        for j in ii:
-            x.append(j[0])
-            y.append(j[1])
-            # clu.append(clusters[i])
-
-        ax.plot(x, y, 's', color = color_map[i])
+    winning_class = [stats[i].index(max(stats[i])) for i in range(k)]
+    result = round(statistics.mean([stats[i][winning_class[i]] / classes.count(
+            list(set(classes))[winning_class[i]]) for i in range(k)]) * 100, 2)
 
     for i in range(len(centroids)):
         ax.plot(centroids[i][n],
@@ -320,8 +271,17 @@ def draw_k_means(data, classes, names, n, m, k, centroids, clusters,
                 markersize = 18, markeredgewidth = 1.5,
                 markeredgecolor = 'k')
 
+    # Set axis parameters
+    ax.set(title = 'Zadanie 1 - Wykresy (Metoda K-Średnich)\nIteracja: '
+                   + str(iteration_number) + '\nSkuteczność: ' + str(
+            result)
+                   + '%',
+           xlabel = names[n],
+           ylabel = names[m])
 
-def calculate_centers_of_clusters(data, k, centroids, clusters) \
+
+# /////////////////////////////////////////////////////////////////////////// #
+def calculate_centers_of_clusters(data, k, clusters) \
         -> Tuple[Vector]:
     centers: List[Vector] = []
 
@@ -334,14 +294,12 @@ def calculate_centers_of_clusters(data, k, centroids, clusters) \
         if clustered_data[i]:
             centers.append(numpy.mean(clustered_data[i], axis = 0))
         else:
-            # print('o kurde')
             centers.append(pick_random_centroids(data, k)[0])
 
     return tuple(centers)
 
 
-# def get_center_of_data(data):
-
+# /////////////////////////////////////////////////////////////////////////// #
 def print_status_bar(
         title: str,
         a: int,
@@ -353,3 +311,22 @@ def print_status_bar(
           ' ' * (n - int((a / b) * n) - 1),
           '| (', a, ' / ', b, ')',
           sep = '', end = '', flush = True)
+
+
+# /////////////////////////////////////////////////////////////////////////// #
+def toggle_matplotlib_fullscreen():
+    pyplot.get_current_fig_manager().full_screen_toggle()
+
+
+# /////////////////////////////////////////////////////////////////////////// #
+def hide_matplotlib_toolbar():
+    pyplot.rcParams['toolbar'] = 'None'
+
+
+# /////////////////////////////////////////////////////////////////////////// #
+def set_matplotlib_fontsize(
+        size: int) \
+        -> None:
+    pyplot.rcParams.update({'font.size': size})
+
+# /////////////////////////////////////////////////////////////////////////// #
