@@ -6,6 +6,8 @@
 \usepackage[usenames,dvipsnames]{color}
 \usepackage[hidelinks]{hyperref}
 \usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{placeins}
 \usepackage{url}
 \usepackage{amsmath, amssymb, mathtools}
 
@@ -45,10 +47,14 @@ Sprawdzenie działania oraz skuteczności algorytmów należało wykonać na trz
 }
 
 \section{Wprowadzenie}
-{Algorytm k - średnich \\
+{
+\subsection{Algorytm k - średnich }
+{
 Należy do grupy algorytmów iteracyjnych oraz analizujących skupienia czyli w czasie kolejnych iteracji wyodrębnia grupy podobnych obiektów. Liczba klas na jakie są dzielone dane wejściowe jest z góry założona. Jedną z najważniejszych elementów jest centroid. Algorytm polega na losowym umiejscowieniu centroidów oraz przenoszeniu ich do centrum skupień punktów. Dane podzbiory są wybierane na podstawie przyporządkowania najbliższego centroidu do punktu. Odległości są obliczane przy pomocy wzoru na odległość Euklidesową. Algorytm zostaje przerwany gdy pozycje centroidów zostaną ustabilizowane.\\\\
+}
 
-Algorytm Kohonena\\
+\subsection{Algorytm Kohonena}
+{
 Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Neurony swobodnie poruszają się w N wymiarowej przestrzeni, warto nadmienić, że N to ilość pomiarów dla jednego punktu w zbiorze danych - w przykładowych danych jest to po prostu liczba kolumn. Każdy punkt ze zbioru danych ma przydzielany zwycięski neuron wiec metoda uczenia w tym algorytmie jest konkurencyjna. Zwycięski neuron jest wybierany zgodnie z odległością wektora wagowego od danego wektora punktu. Odległość jest liczona z użyciem wzoru na odległość Euklidesową - jest tak w przypadku dwóch punktów natomiast gdy jest wiecej wymiarów to wzór się rozrasta czyli jest obliczany pierwiastek z sumy kwadratów poszczególnych składowych położenia w przestrzeni. \\
 
 Wzór na odległość Euklidesową dla dwóch punktów: 
@@ -69,8 +75,11 @@ gdzie:
 \begin{align*}
 \delta(t) = \delta_0 * \exp (-\frac {t} { \lambda })
 \end{align*}
-\\
-Algorytm gazu neuronowego\\
+}
+
+
+\subsection{Algorytm gazu neuronowego}
+{
 Należy do grupy algorytmów samoorganizujących się sieci neuronowych. Precyzując w tej metodzie nie ma sieci natomiast jest kolekcja swobodnych neuronów, które poruszają się swobodnie w określonej przestrzeni. Podobnie jak w przypadku algorytmu Kohonena metoda uczenia jest konkurencyjna czyli ograniczenie swobody polega na współzawodnictwie. Gaz neuronowy definiuje sąsiedztwo na podstawie odległości neuronów w przestrzeni wejściowej. \\
 
 Wzór na modyfikacje wartości wag neuronu:
@@ -83,7 +92,7 @@ G_{(i,x)}(k)=\exp(-m(i)/\lambda(k))
 \end{align*}
 gdzie m(i) oznacza numer neuronu i w rankingu, numer 0 oznacza zwycięzcę.\\
 Parametr $\lambda$ można rozumieć jako promień sąsiedztwa.
-
+}
 }
 
 \section{Opis implementacji}
@@ -91,10 +100,43 @@ Parametr $\lambda$ można rozumieć jako promień sąsiedztwa.
 - data\\
 - report\\
 - src\\
-gdzie w data znajdują się zbiory danych do testów, w report znajduję sie sprawozdanie w formacie .tex oraz wygenerowane sprawozdanie w formacie .pdf. Katalog src zawiera kod źródłowy klas napisanych przez nas. Dla ułatwienia obsługi plik main.py, który zawiera funkcje main() nie został dodany do żadnego z powyżej wymienionych katalogów.
-	\subsection{Plik  .py}
+gdzie w data znajdują się zbiory danych do testów, w report znajduję sie sprawozdanie w formacie .tex oraz wygenerowane sprawozdanie w formacie .pdf. Katalog src zawiera kod źródłowy klas napisanych przez nas.
+	\subsection{Plik file\_reading.py - wczytywanie danych}
 	{
-
+		Kod w tym pliku zawiera 5 funkcji oraz 2 klasy. Jest on odpowiedziałny za poprawne wczytywanie danych z pliku biorąć oczywśicie pod uwagę, że w każdym pliku był inny układ kolumn z wartościami liczbowymi lub tekstowymi. Każdej wartości jest również przypisywany stosowny opis aby było wiadomo co dana wartość oznacza.
+		\begin{itemize}
+			\item vector\_from\_list : tworzy wektor z listy
+			\item empty\_vector 
+			\item load\_data\_sets : ładuje i zwraca zbiory danych i każdej wartości przyporządkowywuje określoną nazwę
+			\item load\_clustering\_data\_from\_csv\_file : ładuje dane z plików csv i rozdziela wartości numeryczne z klass
+			\item get\_column : zwraca n-tą kolumne 2 wymiarowej listy
+			\item ClusteringData
+			\item DataSets
+		\end{itemize}
+	}
+	\subsection{Plik  main.py}
+	{
+		Plik główny programu zawiera funkcje main. Zawiera ona parametry przypisane do zmiennych dla danej metody takie jak liczba klastrów, liczba iteracji oraz wiele innych - szczegóły w kodzie źródłowym.
+	}
+	\subsection{Plik k\_means\_algorithm .py}
+	{
+		Plik zawiera implementacje algorytmu k-średnich. Składa się on z jednej klasy, którą jest Enum oraz z 13 funkcji. Główną funkcją jest k\_means, reszta funkcji to funkcje podrzędne - są wykorzystywane do działania k\_means, spis z krótkim wyjasnieniem poniżej: 
+	\begin{itemize}
+		\item KMeansDataMode(Enum): wybór trybu - domyślny, normalizowany, standaryzowany
+		\item k\_means : odpowiada za znajduwanie klastrów przy pomocu algorytmu k-średnich
+		\item k\_means\_iteration : wyświetla kolejne wykresy, pokazując proces uczenia
+		\item get\_data\_from\_data\_set : odpowiedzialna za wybór odpowiedniego trybu danych z ich zestawu - domyślny, normalizowany, standaryzowany
+		\item get\_column : zwraca n-tą kolumne 2 wymiarowej listy
+		\item pick\_random\_centroids : wybór losowych centroidów
+		\item euclidean\_distance : oblicza odległość Euklidesową
+		\item assign\_data\_to\_nearest\_clusters : przypisuje dane do najbliższego klastra
+		\item draw\_k\_means : odpowiada za rysowanie wykresów
+		\item calculate\_centers\_of\_clusters : wylicza środek klastra
+		\item print\_status\_bar : wypisuje stan w formie ciągu
+		\item toggle\_matplotlib\_fullscreen : włącza opcje pełnego ekranu dla wykresu
+		\item hide\_matplotlib\_toolbar : ukrywa pasek narzedzi matplotlib
+		\item set\_matplotlib\_fontsize : ustawia czcionkę opisów na wykresach
+	\end{itemize}
 	}
 	\subsection{Plik  .py}
 	{
@@ -111,40 +153,235 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 }
 
 \section{Materiały i metody}
-{Aby zapewnić poprawne działanie programu wszystkie wyżej wymienione elementy muszą być obecne. Aby zapewnić większe bezpieczeństwo oraz pewność, że program zawsze zadziała dane testowe są dołączone do programu, również w systemie kontroli wersji katalog data był cały czas obecny. 
+{Aby zapewnić poprawne działanie programu wszystkie wyżej wymienione elementy muszą być obecne. Aby zapewnić większe bezpieczeństwo oraz pewność, że program zawsze zadziała dane testowe są dołączone do programu, również w systemie kontroli wersji katalog data był cały czas obecny. Wybór zbioru danych oraz oraz trybu (DEFAULT, NORMALIZED, STANDARDIZED) wykonuje się przez zmiane w pliku main.py w funkcja main. Nastepnie należy skompilować kod - zalecane przez nas środowisko to PyCharm Community Edition w pełni darmowe do zastosowań niekomercyjnych. Po uruchomieniu wyświetli się wykres w trybie pełnoekranowym, który pokazuje jak działanie programu przez animacje. Po pewnej chwili - czas jest zależny od wybranych danych, trybu danych oraz losowego umiejscowienia centroidów / neuronów zależnie od algorytmu. Aby zapisać plik png należy nacisnąć klawisz |s| na klawiaturze (zwykla litera). Plik zostanie zapisany w katalogu src w projekcie. Ważną informajcą jest to, że plik obrazu jest nadpisywany więc gdy chcemy uzyskać wiecej niż jeden plik .png należy we własnym zakresie skopiować obraz co każde uruchomienie programu. W przypadku chęci zmiany parametrów takich jak liczba klastrów, liczba iteracji należy udać się do main.py i dokonać zmiany przypiswanych wartości zmiennych.
 }
 
 \section{Wyniki}
 {
 	\subsection{Zbiór irysów}
 	{
-		Algorytm k - średnich\\
+		\subsubsection{Algorytm k - średnich}
+		{
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansIrisDefault.png}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansIrisNormalized.png}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansIrisStandadise.png}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		}
 
+		\subsubsection{Algorytm Kohonena}
+		{ 
+		\iffalse
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		\fi
+		}
 
-		Algorytm Kohonena\\
-
-
-		Algorytm gazu neuronowego\\
+		\subsubsection{Algorytm gazu neuronowego}
+		{
+			\iffalse
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		\fi
+		}
 	}
 	\subsection{Zbiór win}
 	{
-		Algorytm k - średnich\\
+		\subsubsection{Algorytm k - średnich}
+		{
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansWineDefault.png}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansWineNormalised.png}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansWineStandardise.png}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		}
 
+		\subsubsection{Algorytm Kohonena}
+		{
+			\iffalse
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		\fi
+		}
 
-		Algorytm Kohonena\\
-
-
-		Algorytm gazu neuronowego\\
+		\subsubsection{Algorytm gazu neuronowego}
+		{
+			\iffalse
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]	
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		\fi
+		}
 	}
 	\subsection{Zbiór abalone}
 	{
-		Algorytm k - średnich\\
+		\subsubsection{Algorytm k - średnich}
+		{
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansAbaloneDefault.png}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansAbaloneNormalised.png}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_k_meansAbaloneStandardise.png}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		}
 
+		\subsubsection{Algorytm Kohonena}
+		{
+			\iffalse
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		\fi
+		}
 
-		Algorytm Kohonena\\
-
-
-		Algorytm gazu neuronowego\\
+		\subsubsection{Algorytm gazu neuronowego}
+		{
+			\iffalse
+			Poniżej wykresy dla trzech trybów
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb domyślny danych}
+				\end{figure}
+			
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb normalizacji danych}
+				\end{figure}
+		
+				\begin{figure}[!htbp]
+					\centering
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\caption{Tryb standaryzacji danych}
+				\end{figure}
+			\FloatBarrier
+		\fi
+		}
 	}
 }
 
