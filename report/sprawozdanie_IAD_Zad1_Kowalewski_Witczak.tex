@@ -123,7 +123,7 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 		Plik zawiera implementacje algorytmu k-średnich. Składa się on z jednej klasy, którą jest Enum oraz z 13 funkcji. Główną funkcją jest k\_means, reszta funkcji to funkcje podrzędne - są wykorzystywane do działania k\_means, spis z krótkim wyjasnieniem poniżej: 
 	\begin{itemize}
 		\item KMeansDataMode(Enum): wybór trybu - domyślny, normalizowany, standaryzowany
-		\item k\_means : odpowiada za znajduwanie klastrów przy pomocu algorytmu k-średnich
+		\item k\_means : odpowiada za znajdowanie klastrów przy pomocu algorytmu k-średnich
 		\item k\_means\_iteration : wyświetla kolejne wykresy, pokazując proces uczenia
 		\item get\_data\_from\_data\_set : odpowiedzialna za wybór odpowiedniego trybu danych z ich zestawu - domyślny, normalizowany, standaryzowany
 		\item get\_column : zwraca n-tą kolumne 2 wymiarowej listy
@@ -138,18 +138,59 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 		\item set\_matplotlib\_fontsize : ustawia czcionkę opisów na wykresach
 	\end{itemize}
 	}
-	\subsection{Plik  .py}
+	\subsection{Plik  kohonen\_network\_algorithm.py}
 	{
-
+		Plik zawiera implementacje algorytmu Kohonena. Składa sie on z 20 funkcji. Główną funkcją jest kohonen, reszta funkcji to funkcje podrzędne - są wykorzystywane do działania kohonen, spis z krótkim wyjasnieniem poniżej: 
+\begin{itemize}
+\item kohonen : wylicza samoorganizująco się mape przy pomocy algorytmu kohonena
+\item kohonen\_iteration : wyświetla kolejne wykresy, pokazując proces uczenia
+\item get\_best\_matching\_unit\_neighbourhood
+\item calculate\_neighbourhood\_radius : zwraca promień sąsiedztwa
+\item calculate\_learning\_rate : oblicza szybkość uczenia się
+\item calculate\_gaussian\_decay : oblicza rozkład Gaussa
+\item sigma
+\item find\_best\_matching\_unit : znajduję najlepszą pasującą jednostkę
+\item get\_random\_shuffled\_range : zwraca losowy zakres tasowania
+\item get\_vectors\_from\_data\_set : zwraca vectors z zbioru danych
+\item get\_column : zwraca n-tą kolumne 2 wymiarowej listy
+\item pick\_random\_neurons : wybór losowych neuronów
+\item euclidean\_distance : oblicza odległość Euklidesową
+\item assign\_data\_to\_nearest\_clusters :: przypisuje dane do najbliższego klastra
+\item draw\_kohonen : odpowiada za rysowanie wykresów
+\item calculate\_centers\_of\_clusters : wylicza środek klastra
+\item print\_status\_bar : wypisuje stan w formie ciągu
+\item toggle\_matplotlib\_fullscreen : włącza opcje pełnego ekranu dla wykresu
+\item hide\_matplotlib\_toolbar : ukrywa pasek narzedzi matplotlib
+\item set\_matplotlib\_fontsize : ustawia czcionkę opisów na wykresach
+\end{itemize}
 	}
-	\subsection{Plik  .py}
+	\subsection{Plik  NeuralGasAlgorithm.py}
 	{
-
+		Plik zawiera implementacje algorytmu gazu neuronowego. Składa sie on z 20 funkcji. Główną funkcją jest neural\_gas, reszta funkcji to funkcje podrzędne - są wykorzystywane do działania neural\_gas, spis z krótkim wyjasnieniem poniżej: 
+\begin{itemize}
+\item neural\_gas : wylicza samoorganizująco się mape przy pomocy algorytmu gazu neuronowego
+\item neural\_gas\_iteration : wyświetla kolejne wykresy, pokazując proces uczenia
+\item get\_best\_matching\_unit\_neighbourhood
+\item calculate\_neighbourhood\_radius : zwraca promień sąsiedztwa
+\item calculate\_learning\_rate : oblicza szybkość uczenia się
+\item calculate\_neighbourhood\_function
+\item sigma
+\item find\_best\_matching\_unit : znajduję najlepszą pasującą jednostkę
+\item get\_random\_shuffled\_range : zwraca losowy zakres tasowania
+\item get\_vectors\_from\_data\_set : zwraca vectors z zbioru danych
+\item get\_column : zwraca n-tą kolumne 2 wymiarowej listy
+\item pick\_random\_neurons : wybór losowych neuronów
+\item euclidean\_distance : oblicza odległość Euklidesową
+\item assign\_data\_to\_nearest\_clusters : przypisuje dane do najbliższego klastra
+\item draw\_neural\_gas: odpowiada za rysowanie wykresów
+\item calculate\_centers\_of\_clusters : wylicza środek klastra
+\item print\_status\_bar : wypisuje stan w formie ciągu
+\item toggle\_matplotlib\_fullscreen : włącza opcje pełnego ekranu dla wykresu
+\item hide\_matplotlib\_toolbar : ukrywa pasek narzedzi matplotlib
+\item set\_matplotlib\_fontsize : ustawia czcionkę opisów na wykresach
+\end{itemize}
 	}
-	\subsection{Plik  .py}
-	{
-
-	}
+	
 }
 
 \section{Materiały i metody}
@@ -185,27 +226,25 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 
 		\subsubsection{Algorytm Kohonena}
 		{ 
-		\iffalse
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenIrisDefault.png}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenIrisNormalized.png}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenIrisStandardised.png}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
-			\FloatBarrier
-		\fi
+			\FloatBarrier		
 		}
 
 		\subsubsection{Algorytm gazu neuronowego}
@@ -260,27 +299,25 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 
 		\subsubsection{Algorytm Kohonena}
 		{
-			\iffalse
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenWineDefault.png}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenWineNormalised.png}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenWineStandardised.png}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
-		\fi
 		}
 
 		\subsubsection{Algorytm gazu neuronowego}
@@ -335,27 +372,25 @@ gdzie w data znajdują się zbiory danych do testów, w report znajduję sie spr
 
 		\subsubsection{Algorytm Kohonena}
 		{
-			\iffalse
 			Poniżej wykresy dla trzech trybów
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenAbaloneDefault.png}
 					\caption{Tryb domyślny danych}
 				\end{figure}
 			
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenAbaloneNormalised.png}
 					\caption{Tryb normalizacji danych}
 				\end{figure}
 		
 				\begin{figure}[!htbp]
 					\centering
-					\includegraphics[width=\textwidth,width=95mm]{wykresy/}
+					\includegraphics[width=\textwidth,width=95mm]{wykresy/plot_kohonenAbaloneStandardised.png}
 					\caption{Tryb standaryzacji danych}
 				\end{figure}
 			\FloatBarrier
-		\fi
 		}
 
 		\subsubsection{Algorytm gazu neuronowego}
