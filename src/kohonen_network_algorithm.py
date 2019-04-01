@@ -10,8 +10,8 @@ from matplotlib import pyplot
 from src.file_reading import ClusteringData, DataMode, Vector, vector_from_list
 
 
-# ////////////////////////////////////////////////////// Neural gas algorithm #
-def neural_gas(
+# ///////////////////////////////////////////////////////// Kohonen algorithm #
+def kohonen(
         data_set: ClusteringData,
         n: int,
         *,
@@ -21,7 +21,7 @@ def neural_gas(
         y_axis_vector_index: int = 1,
         mode: DataMode = DataMode.DEFAULT) \
         -> None:
-    """ Compute self-organising map using neural gas algorithm.
+    """ Compute self-organising map using Kohonen network algorithm.
 
     Parameters
     ----------
@@ -30,7 +30,7 @@ def neural_gas(
     data_set : ClusteringData
         Data set for finding clusters.
     n : int
-        Number of neurons in neural gas self-organising map.
+        Number of neurons in Kohonen self-organising map.
     iterations
         Number of times the algorithm will be executed, the result with the
         lowest quantisation error will be chosen.
@@ -38,7 +38,7 @@ def neural_gas(
         Index of vector element to plot on x axis.
     y_axis_vector_index : int
         Index of vector element to plot on y axis.
-    mode : DataMode
+    mode : KohonenDataMode
         Select whether data is normalised or standardised
 
     """
@@ -46,12 +46,12 @@ def neural_gas(
     # Choose appropriate data mode
     vectors: Tuple[Vector, ...] = get_vectors_from_data_set(data_set, mode)
 
-    # Perform a given number of iterations of neural gas algorithm
+    # Perform a given number of iterations of Kohonen algorithm
     # and choose the result with the lowest quantisation error
     initial_neurons: List[Tuple[int, ...]] = []
     quantisation_errors: List[float] = []
 
-    print('[ Neural Gas Network ]')
+    print('[ Kohonen Network ]')
 
     for i in range(iterations):
         print_status_bar('> Iterations', i + 1, iterations)
@@ -60,16 +60,16 @@ def neural_gas(
         initial_neurons.append(
                 pick_random_neurons(n, vectors))
 
-        # Perform neural gas algorithm and save quantisation error
+        # Perform Kohonen algorithm and save quantisation error
         quantisation_errors.append(
-                neural_gas_iteration(vectors, initial_neurons[i],
+                kohonen_iteration(vectors, initial_neurons[i],
                                   data_set.classes, data_set.parameter_names))
 
     initial_neurons_with_lowest_error: Tuple[int, ...] \
         = initial_neurons[quantisation_errors.index(min(quantisation_errors))]
 
     # Draw animation for the best iteration
-    neural_gas_iteration(vectors, initial_neurons_with_lowest_error,
+    kohonen_iteration(vectors, initial_neurons_with_lowest_error,
                       data_set.classes, data_set.parameter_names,
                       animate = True, animation_rate = animation_rate,
                       x_axis_vector_index = x_axis_vector_index,
@@ -77,7 +77,7 @@ def neural_gas(
 
 
 # /////////////////////////////////////////////////////////////////////////// #
-def neural_gas_iteration(
+def kohonen_iteration(
         vectors: Tuple[Vector, ...],
         initial_neurons: Tuple[int, ...],
         classes,  # TODO
@@ -107,7 +107,7 @@ def neural_gas_iteration(
                 pyplot.close(pyplot.gcf())
             # Save plot to file
             elif event.key == 's':
-                pyplot.savefig('plot_neural gas.png')
+                pyplot.savefig('plot_kohonen.png')
 
         hide_matplotlib_toolbar()
         set_matplotlib_fontsize(16)
@@ -159,7 +159,7 @@ def neural_gas_iteration(
                 # Update neuron weights within the neighbourhood ....... STEP 4
                 for i in bmu_neighbourhood:
                     neurons[i] = neurons[i] \
-                                 + learning_rate * calculate_neighbourhood_function(
+                                 + learning_rate * calculate_gaussian_decay(
                             neighbourhood_radius,
                             neurons[best_matching_unit],
                             neurons[i]) \
@@ -184,7 +184,7 @@ def neural_gas_iteration(
             clusters = assign_data_to_nearest_clusters(vectors, neurons)
 
             if animate:
-                draw_neural_gas(vectors, classes,
+                draw_kohonen(vectors, classes,
                              parameter_names,
                              x_axis_vector_index, y_axis_vector_index,
                              len(neurons),
@@ -245,10 +245,17 @@ def calculate_learning_rate(
     return sigma(initial_rate, current_iteration, maximum_iterations)
 
 
-def calculate_neighbourhood_function(
-        t: int) \
+def calculate_gaussian_decay(
+        radius: float,
+        vector: Vector,
+        neuron: Vector) \
         -> float:
-    return numpy.e**(-((distance**2) / (2 * radius**2)))
+    # distance = euclidean_distance(neuron, vector)
+    # return numpy.e**(-((distance**2) / (2 * radius**2)))
+    if numpy.array_equal(vector, neuron):
+        return 1
+    else:
+        return 0
 
 def sigma(
         o: float,
@@ -351,7 +358,7 @@ def assign_data_to_nearest_clusters(
 
 
 # /////////////////////////////////////////////////////////////////////////// #
-def draw_neural_gas(data, classes, names, n, m, k, centroids, clusters,
+def draw_kohonen(data, classes, names, n, m, k, centroids, clusters,
                  iteration_number):
     # Get and clear current axes
     ax = pyplot.gca()
@@ -394,7 +401,7 @@ def draw_neural_gas(data, classes, names, n, m, k, centroids, clusters,
                 markeredgecolor = 'k')
 
     # Set axis parameters
-    ax.set(title = 'Zadanie 1 - Wykresy (Metoda Gazu Neuronowego)\nIteracja: '
+    ax.set(title = 'Zadanie 1 - Wykresy (Metoda Kohonena)\nIteracja: '
                    + str(iteration_number) + '\nSkuteczność: ' + str(
             result)
                    + '%',

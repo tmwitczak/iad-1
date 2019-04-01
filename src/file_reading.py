@@ -1,6 +1,7 @@
 # /////////////////////////////////////////////////////////////////// Imports #
 import csv
 import statistics
+from enum import Enum
 from typing import Any, List, NamedTuple, Tuple
 
 import numpy
@@ -22,6 +23,12 @@ def empty_vector(
 
 
 # /////////////////////////////////////////////////////////////////// Classes #
+class DataMode(Enum):
+    DEFAULT = 0
+    NORMALISED = 1
+    STANDARDISED = 2
+
+
 class ClusteringData(NamedTuple):
     data: Tuple[Vector, ...]
     data_normalised: Tuple[Vector, ...]
