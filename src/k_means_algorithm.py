@@ -7,14 +7,7 @@ from typing import List, Tuple
 import numpy
 from matplotlib import pyplot
 
-from src.file_reading import ClusteringData, Vector, vector_from_list
-
-
-# /////////////////////////////////////////////////////////////////// Classes #
-class KMeansDataMode(Enum):
-    DEFAULT = 0
-    NORMALISED = 1
-    STANDARDISED = 2
+from src.file_reading import ClusteringData, Vector, vector_from_list, DataMode
 
 
 # ///////////////////////////////////////////////////////// K-means algorithm #
@@ -24,9 +17,9 @@ def k_means(
         *,
         iterations: int = 10,
         animation_rate: float = 0.001,
-        i: int = 0,
-        j: int = 1,
-        mode: KMeansDataMode = KMeansDataMode.DEFAULT) \
+        x_axis_vector_index: int = 0,
+        y_axis_vector_index: int = 1,
+        mode: DataMode = DataMode.DEFAULT) \
         -> None:
     """ Find clusters using k-means algorithm.
 
@@ -40,11 +33,11 @@ def k_means(
     iterations
         Number of times the algorithm will be executed, the result with the
         lowest quantisation error will be chosen.
-    i : int
+    x_axis_vector_index : int
         Index of vector element to plot on x axis.
-    j : int
+    y_axis_vector_index : int
         Index of vector element to plot on y axis.
-    mode : KMeansDataMode
+    mode : DataMode
         Select whether data is normalised or standardised
 
     """
@@ -70,7 +63,7 @@ def k_means(
 
     # Draw animation for the best iteration
     k_means_iteration(data_set, data, k, final_initial_centroid, True,
-                      animation_rate, i, j)
+                      animation_rate, x_axis_vector_index, y_axis_vector_index)
 
 
 # /////////////////////////////////////////////////////////////////////////// #
@@ -153,14 +146,14 @@ def k_means_iteration(
 # /////////////////////////////////////////////////////////////////////////// #
 def get_data_from_data_set(
         data_set: ClusteringData,
-        mode: KMeansDataMode = KMeansDataMode.DEFAULT) \
+        mode: DataMode = DataMode.DEFAULT) \
         -> Tuple[Vector]:
     """ Select appropriate mode of data from data set
     """
     # ----------------------------------------------------------------------- #
-    if mode == KMeansDataMode.NORMALISED:
+    if mode == DataMode.NORMALISED:
         return data_set.data_normalised
-    elif mode == KMeansDataMode.STANDARDISED:
+    elif mode == DataMode.STANDARDISED:
         return data_set.data_standardised
     else:
         return data_set.data

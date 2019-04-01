@@ -119,10 +119,10 @@ def kohonen_iteration(
     neurons: List[Vector] = [vectors[i] for i in initial_neurons]
 
     # Select initial constants ......................................... STEP 0
-    maximum_iterations: int = 64
+    maximum_iterations: int = 100
     initial_radius: float = euclidean_distance(numpy.min(vectors, axis = 0),
-                                               numpy.max(vectors, axis = 0))
-    initial_rate: float = 0.05
+                                               numpy.max(vectors, axis = 0)) / 1000
+    initial_rate: float = 0.1
 
     # Perform a given number of iterations
     for current_iteration in range(maximum_iterations):
@@ -250,12 +250,12 @@ def calculate_gaussian_decay(
         vector: Vector,
         neuron: Vector) \
         -> float:
-    # distance = euclidean_distance(neuron, vector)
-    # return numpy.e**(-((distance**2) / (2 * radius**2)))
-    if numpy.array_equal(vector, neuron):
-        return 1
-    else:
-        return 0
+    distance = euclidean_distance(neuron, vector)
+    return numpy.e**(-((distance**2) / (2 * radius**2)))
+    # if distance <= radius:
+    #     return 1
+    # else:
+    #     return 0
 
 def sigma(
         o: float,
