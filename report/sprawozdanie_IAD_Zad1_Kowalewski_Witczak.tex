@@ -117,8 +117,9 @@ wersji git. Cały projekt został podzielony na katalogi:\\
 - data\\
 - report\\
 - src\\
+-image-compression\\
 gdzie w data znajdują się zbiory danych do testów, w report znajduję sie sprawozdanie w formacie .tex oraz wygenerowane
-sprawozdanie w formacie .pdf. Katalog src zawiera kod źródłowy klas napisanych przez nas.
+sprawozdanie w formacie .pdf. Katalog src zawiera kod źródłowy klas napisanych przez nas. Katalog image-compression zawiera obrazy oraz kod źródłowy odpowiedzialny za kompresje obrazów.
 \subsection{Plik file\_reading.py - wczytywanie danych}
 {
 Kod w tym pliku zawiera 5 funkcji oraz 2 klasy. Jest on odpowiedzialny za poprawne wczytywanie danych z pliku biorąc
@@ -134,12 +135,12 @@ jest również przypisywany stosowny opis aby było wiadomo co dana wartość oz
 \item DataSets
 \end{itemize}
 }
-\subsection{Plik main.py}
+\subsection{Plik src/main.py}
 {
 Plik główny programu zawiera funkcje main. Zawiera ona parametry przypisane do zmiennych dla danej metody takie jak
 liczba klastrów, liczba iteracji oraz wiele innych - szczegóły w kodzie źródłowym.
 }
-\subsection{Plik k\_means\_algorithm .py}
+\subsection{Plik src/k\_means\_algorithm .py}
 {
 Plik zawiera implementacje algorytmu k-średnich. Składa się on z jednej klasy, którą jest Enum oraz z 13 funkcji.
 Główną funkcją jest k\_means, reszta funkcji to funkcje podrzędne - są wykorzystywane do działania k\_means, spis
@@ -162,7 +163,7 @@ normalizowany, standaryzowany
 \item set\_matplotlib\_fontsize : ustawia czcionkę opisów na wykresach
 \end{itemize}
 }
-\subsection{Plik kohonen\_network\_algorithm.py}
+\subsection{Plik src/kohonen\_network\_algorithm.py}
 {
 Plik zawiera implementacje algorytmu Kohonena. Składa sie on z 20 funkcji. Główną funkcją jest kohonen, reszta
 funkcji to funkcje podrzędne - są wykorzystywane do działania kohonen, spis z krótkim wyjaśnieniem poniżej:
@@ -180,7 +181,7 @@ funkcji to funkcje podrzędne - są wykorzystywane do działania kohonen, spis z
 \item get\_column : zwraca n-tą kolumnę 2 wymiarowej listy
 \item pick\_random\_neurons : wybór losowych neuronów
 \item euclidean\_distance : oblicza odległość Euklidesową
-\item assign\_data\_to\_nearest\_clusters :: przypisuje dane do najbliższego klastra
+\item assign\_data\_to\_nearest\_clusters : przypisuje dane do najbliższego klastra
 \item draw\_kohonen : odpowiada za rysowanie wykresów
 \item calculate\_centers\_of\_clusters : wylicza środek klastra
 \item print\_status\_bar : wypisuje stan w formie ciągu
@@ -190,6 +191,32 @@ funkcji to funkcje podrzędne - są wykorzystywane do działania kohonen, spis z
 \end{itemize}
 }
 
+\subsection{Plik image-compression/image\_compression\_algorithm.py}
+{
+Plik zawiera 14 funkcji za pomocą, których jest implementowany algorytm k-średnich do kompresji obrazów.
+Spis funkcji z krótkim wyjaśnieniem poniżej:
+\begin{itemize}
+\item compress\_image : odpowiada za kompresje wybranego obrazu korzystając z algorytmu k-średnich
+\item load\_image\_from\_file : ładowanie obrazu z pliku przy użyciu matplotlib
+\item convert\_pixels\_from\_rgb\_to\_xyz : konwersja pikseli z rgb na xyz
+\item pack\_pixels\_into\_frames : pakowanie pikseli do ramek w formie wektora
+\item clusterise\_frames : klasteryzacja ramki i zwraca odpowiednie centroidy
+\item unpack\_frames\_into\_pixels : konwertuje z powrotem z ramek do 2 wymiarowej siatki pikseli
+\item convert\_pixels\_from\_xyz\_to\_rgb : konwertuje 2 wymiarową siatkę pikseli z XYZ do RBG
+\item save\_image\_to\_file : zapisuje piksele do pliku
+\item k\_means : klasteryzuje dane i zamienia każdy wektor z jego centroidem
+\item print\_status\_bar : wypisuje stan w formie ciągu
+\item convert\_pixels\_color\_space : konwerstuje 2 wymiarową siatke pikseli do innej przestrzeni kolorów
+\item convert\_rgb\_to\_xyz : konwertuje kolor z użyciem numpy.ndarray z RBG do XYZ
+\item convert\_xyz\_to\_rgb : konwertuje kolor z użyciem numpy.ndarray z XYZ do RGB
+\item get\_random\_shuffled\_range : zwraca losowy zakres liczby całkowitej
+\end{itemize}
+}
+\subsection{Plik image-compression/main.py}
+{
+Plik główny programu zawiera funkcje main. Znajduję się w nim konsolowy interface użytkownika,
+który pobiera wszelkie potrzebne informacje i ustawia działanie programu zgodnie z życzeniem użytkownika.
+}
 }
 
 \section{Materiały i metody}
@@ -204,6 +231,7 @@ Aby zapisać plik png należy nacisnąć klawisz |s| na klawiaturze (zwykła lit
 w projekcie. Ważną informacją jest to, że plik obrazu jest nadpisywany więc gdy chcemy uzyskać więcej niż jeden plik
 .png należy we własnym zakresie skopiować obraz co każde uruchomienie programu. W przypadku chęci zmiany parametrów
 takich jak liczba klastrów, liczba iteracji należy udać się do main.py i dokonać zmiany przypisywanych wartości zmiennych.
+
 }
 
 \section{Wyniki}
@@ -357,118 +385,181 @@ Poniżej wykresy dla trzech trybów
 \subsection{Obrazy Algorytm k - średnich}
 {
 \subsubsection{chair.png}
-{\iffalse
-Poniżej obrazy dla trzech trybów
+{
+
+Poniżej obrazy dla róznych rozmiarów ramek
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb domyślny danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/chair_R1_K5_P1_It10.png}
+\caption{Rozmiar ramek: 1 liczba klastrów: 5 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb normalizacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/chair_R2_K256_P1_It10.png}
+\caption{Rozmiar ramek: 2 liczba klastrów:256 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb standaryzacji danych}
-\end{figure}
-\FloatBarrier \fi
-}
-
-\subsubsection{duck.png}
-{\iffalse
-Poniżej obrazy dla trzech trybów
-\begin{figure}[!htbp]
-\centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb domyślny danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/chair_R4_K6_P1_It10.png}
+\caption{Rozmiar ramek: 4 liczba klastrów:6 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb normalizacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/chair_R32_K8_P1_It10.png}
+\caption{Rozmiar ramek: 32 liczba klastrów:8 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb standaryzacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/chair_R64_K12_P1_It10.png}
+\caption{Rozmiar ramek: 64 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
 \end{figure}
-\FloatBarrier \fi
+\FloatBarrier
 }
 
 \subsubsection{house.png}
-{\iffalse
-Poniżej obrazy dla trzech trybów
+{
+
+Poniżej obrazy dla róznych rozmiarów ramek
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb domyślny danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/house_R1_K5_P1_It10.png}
+\caption{Rozmiar ramek: 1 liczba klastrów:5 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb normalizacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/house_R2_K12_P1_It10.png}
+\caption{Rozmiar ramek: 2 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb standaryzacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/house_R4_K12_P1_It10.png}
+\caption{Rozmiar ramek: 4 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
 \end{figure}
-\FloatBarrier \fi
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/house_R8_K12_P1_It10.png}
+\caption{Rozmiar ramek: 8 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/house_R4_K128_P1_It10.png}
+\caption{Rozmiar ramek:4 liczba klastrów:128 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+\FloatBarrier
+}
+
+\subsubsection{duck.png}
+{
+Poniżej obrazy dla róznych rozmiarów ramek
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/duck_R1_K5_P1_It10.png}
+\caption{Rozmiar ramek:1 liczba klastrów:5 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/duck_R2_K12_P1_It10.png}
+\caption{Rozmiar ramek:2 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/duck_R4_K12_P1_It10.png}
+\caption{Rozmiar ramek:4 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/duck_R8_K12_P1_It10.png}
+\caption{Rozmiar ramek:8 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/duck_R4_K128_P1_It10.png}
+\caption{Rozmiar ramek:4 liczba klastrów:128 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+\FloatBarrier
 }
 
 \subsubsection{iris.png}
-{\iffalse
-Poniżej obrazy dla trzech trybów
+{
+
+Poniżej obrazy dla róznych rozmiarów ramek
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb domyślny danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/iris_R1_K5_P1_It10.png}
+\caption{Rozmiar ramek:1 liczba klastrów:5 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb normalizacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/iris_R2_K12_P1_It10.png}
+\caption{Rozmiar ramek:2 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb standaryzacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/iris_R4_K12_P1_It10.png}
+\caption{Rozmiar ramek: liczba klastrów: powtórzenia: 1 iteracje: 10 }
 \end{figure}
-\FloatBarrier \fi
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/iris_R4_K128_P1_It10.png}
+\caption{Rozmiar ramek:4 liczba klastrów:128 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/iris_R8_K12_P1_It10.png}
+\caption{Rozmiar ramek:8 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+\FloatBarrier
 }
 
 \subsubsection{lenna.png}
-{\iffalse
-Poniżej obrazy dla trzech trybów
+{
+Poniżej obrazy dla róznych rozmiarów ramek
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb domyślny danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/lenna_R1_K5_P1_It10.png}
+\caption{Rozmiar ramek:1 liczba klastrów:5 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb normalizacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/lenna_R2_K12_P1_It10.png}
+\caption{Rozmiar ramek:2 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/ }
-\caption{Tryb standaryzacji danych}
+\includegraphics[width=\textwidth,width=90mm]{obrazy/lenna_R4_K12_P1_It10.png}
+\caption{Rozmiar ramek:4 liczba klastrów:12 powtórzenia: 1 iteracje: 10 }
 \end{figure}
-\FloatBarrier \fi
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/lenna_R8_K128_P1_It10.png}
+\caption{Rozmiar ramek:8 liczba klastrów:128 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\textwidth,width=90mm]{obrazy/lenna_R4_K256_P1_It10.png}
+\caption{Rozmiar ramek:4 liczba klastrów:256 powtórzenia: 1 iteracje: 10 }
+\end{figure}
+\FloatBarrier
 }
 
 }
