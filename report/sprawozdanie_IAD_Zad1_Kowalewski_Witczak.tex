@@ -230,7 +230,10 @@ jest zależny od wybranych danych, trybu danych oraz losowego umiejscowienia cen
 Aby zapisać plik png należy nacisnąć klawisz |s| na klawiaturze (zwykła litera). Plik zostanie zapisany w katalogu src
 w projekcie. Ważną informacją jest to, że plik obrazu jest nadpisywany więc gdy chcemy uzyskać więcej niż jeden plik
 .png należy we własnym zakresie skopiować obraz co każde uruchomienie programu. W przypadku chęci zmiany parametrów
-takich jak liczba klastrów, liczba iteracji należy udać się do main.py i dokonać zmiany przypisywanych wartości zmiennych.
+takich jak liczba klastrów, liczba iteracji należy udać się do main.py i dokonać zmiany przypisywanych wartości zmiennych.\\
+
+Metoda kompresji obrazu polega na klasteryzacji wektorów utworzonych z poszczególnych pikseli danej ramki zapisanych jako kolejne współrzędne w przestrzeni barw XYZ, a następnie zastąpieniu każdej ramki przez odpowiadającą jej klastrowi centroidę.
+
 
 }
 
@@ -556,7 +559,7 @@ Poniżej obrazy dla róznych rozmiarów ramek
 
 \begin{figure}[!htbp]
 \centering
-\includegraphics[width=\textwidth,width=90mm]{obrazy/lenna_R4_K256_P1_It10.png}
+\includegraphics[width=\textwidth,width=85mm]{obrazy/lenna_R4_K256_P1_It10.png}
 \caption{Rozmiar ramek:4 liczba klastrów:256 powtórzenia: 1 iteracje: 10 }
 \end{figure}
 \FloatBarrier
@@ -583,7 +586,9 @@ rozkładu płci. Pomimo całego geniusza tych metod nie zawsze są one do końca
 otrzymanych wyników. Podobnie jak w metodzie k-średnich dla zbioru irysów normalizacja lub standaryzacja znacząco
 nie wpływa na uzyskaną jakość klasteryzacji. Metoda Kohonena odznaczyła się znacznie wyższą skutecznością przy
 skorzystaniu z standaryzacji natomiast wykonywanie normalizacji nie miało zbyt dużego sensu gdyż wyniki były bardzo
-porównywalne z tymi uzyskanymi na danych wejściowych bez żadnej ingerencji.
+porównywalne z tymi uzyskanymi na danych wejściowych bez żadnej ingerencji.\\
+
+Dla rozmiaru ramek równych 1x1 rozpatrujemy kompresję na poszczególnych pikselach. Liczba klastrów możemy być interpretowana jako docelowa liczba kolorów w skompresowanym obrazie. Tak skompresowane obrazy zachowują wejściową ostrość a kompresja redukuje liczbę wyświetlanych kolorów. Im wiekszy rozmiar ramki tym wykonana kompresja jest bardziej widoczna dla ludzkiego oka. Przykładowo dla rozmiaru ramek 32 i 64 kompresja obrazu na ramkach staje się bardziej oczywista za cene wejsciowej ostrości w porownaniu do ramek mniejszych. Jednakże czas wykonania takiej kompresji jest znacząco szybszy. Naszym zdaniem najbardziej optymalnym rozmiarem ramek bylo 4x4 natomiast liczba klastrów to 128. W przypdadku rozpatrywania kompresji na ramkach pikseli liczba klastrów możemy interpretować jako liczbę różnych ramek z których będzie skladał sie wyjściowy obraz. Najlepszy efekt uzyskalimy przy ustawieniach - rysunek 20. Jest to spowodowane tym, że wielkość ramki jest na tyle mała, że ludzkie oko nie wychwytuje znaczącej zmiany w ostrości a liczba klastrów zapewnia wierną reprodukcje obrazu. Jest to niestety obarczone bardzo długim czasem działania programu w porównaniu do innych ustawionych parametrów. Ze względu na dostepny czas liczbę iteracji zawsze ustawialiśmy na 10 natomiast liczbe potwórzeń algorytmu na 1. Efekty kompresji są według na zadawalające. W naszym programie jest dostępna opcja zwiekszenia liczby potwórzeń algorytmu co skutkuje wyborem klasteryzacji z najmniejszym błedem kwantyzacji. Ze wzrastającą liczbą klastrów zwiększa sie liczba iteracji wymaganych, żeby centroidy w algorytmie k-średnich uległy stabilizacji.
 
 }
 
